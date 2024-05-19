@@ -37,8 +37,6 @@ class HTMLNode:
         if not isinstance(value, HTMLNode):
             return False
 
-        #return f"{self}" == f"{value}"
-
         return self.tag == value.tag and self.value == value.value and self.children == value.children and self.props == value.props
 
 class LeafNode(HTMLNode):
@@ -63,3 +61,34 @@ class LeafNode(HTMLNode):
             return False
 
         return self.tag == value.tag and self.value == value.value and self.props == value.props
+
+class ParentNode(HTMLNode):
+    def __init__(
+        self,
+        tag: str | None = None,
+        children: object | List[object] = None,
+        props: Dict[str, Any] | None = None
+    ):
+        if children == None:
+            raise ValueError("ParentNode requires \"children\" to be defined")
+        if tag == None:
+            raise ValueError("ParentNode requires a \"tag\" to be defined")
+
+        super().__init__(tag=tag, children=children, props=props)
+
+    def to_html(self):
+        children = ""
+
+        if isinstance(self.children, (ParentNode, LeafNode)):
+            children = self.children.to_html()
+
+        if isinstance(self.children, list):
+            children = f"{"".join(map(lambda child: child.to_html(), self.children))}"
+
+        return f"<{self.tag}{self.props_to_html()}>{children}</{self.tag}>"
+
+    def __eq__(self, value: object, /) -> bool:
+        if not isinstance(value, HTMLNode):
+            return False
+
+        return self.tag == value.tag and self.children == value.children and self.props == value.props
