@@ -2,12 +2,19 @@
 
 class TextNode:
     def __init__(self, text: str, text_type:str , url: str = ""):
-        self.text = text
-        self.text_type = text_type
-        self.url = url
+        try:
+            str(text)
+            str(text_type)
+            str(url)
+        except ValueError:
+            raise ValueError("text, text_type and url(if present) must be strings")
+
+        self.text = str(text)
+        self.text_type = str(text_type)
+        self.url = str(url)
 
     def __eq__(self, value: object, /) -> bool:
-        if not isinstance(value, TextNode): return NotImplemented
+        if not isinstance(value, TextNode): return False
 
         return self.url == value.url and self.text_type == value.text_type and self.text == value.text
 

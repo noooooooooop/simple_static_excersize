@@ -44,6 +44,17 @@ class TestTextNode(unittest.TestCase):
         node2 = TextNode("This is a text node", "bold")
         self.assertNotEqual(node, node2)
 
+    def test_invalid_1(self):
+        node = TextNode(None, "bold", "adsfasdfafsd")
+        self.assertRaises(ValueError)
+
+    def test_invalid_2(self):
+        node = TextNode("test", None, "adsfasdfafsd")
+        self.assertRaises(ValueError)
+
+    def test_invalid_3(self):
+        node = TextNode("test", "asdf", None)
+        self.assertRaises(ValueError)
 
 if __name__ == "__main__":
     unittest.main()
