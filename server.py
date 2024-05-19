@@ -2,7 +2,6 @@ import os
 import argparse
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 
-
 def run(
     server_class=HTTPServer,
     handler_class=SimpleHTTPRequestHandler,
