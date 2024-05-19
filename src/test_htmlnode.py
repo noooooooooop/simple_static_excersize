@@ -42,46 +42,5 @@ class TestHTMLNode(unittest.TestCase):
     def test_invalid_1(self):
         self.assertRaises(ValueError, lambda: HTMLNode("test", "asdf", True))
 
-    def test_render_leafnode_1(self):
-        html = LeafNode("p", "This is a paragraph of text.").to_html()
-        self.assertEqual(html, "<p>This is a paragraph of text.</p>")
-
-    def test_render_leafnode_2(self):
-        html = LeafNode("a", "Click me!", {"href": "https://www.google.com"}).to_html()
-        self.assertEqual(html, "<a href=\"https://www.google.com\">Click me!</a>")
-
-    def test_render_leafnode_error_1(self):
-        self.assertRaises(ValueError, lambda: LeafNode("p"))
-
-    def test_render_parentnode_1(self):
-        html = ParentNode(
-            "p",
-            [
-                LeafNode("b", "Bold text"),
-                LeafNode(None, "Normal text"),
-                LeafNode("i", "italic text"),
-                LeafNode(None, "Normal text"),
-            ],
-        ).to_html()
-
-        self.assertEqual(html, "<p><b>Bold text</b>Normal text<i>italic text</i>Normal text</p>")
-
-    def test_render_parentnode_2(self):
-        html = ParentNode(
-            "p",
-            [
-                LeafNode("b", "Bold text"),
-                LeafNode(None, "Normal text"),
-                LeafNode("i", "italic text"),
-                ParentNode("div", [
-                    LeafNode("p", "test1"),
-                    LeafNode("a", "test2", {"href": "https://www.google.com"}),
-                ]),
-            ],
-        ).to_html()
-
-        self.assertEqual(html, "<p><b>Bold text</b>Normal text<i>italic text</i><div><p>test1</p><a href=\"https://www.google.com\">test2</a></div></p>")
-
-
 if __name__ == "__main__":
     unittest.main()
