@@ -5,21 +5,21 @@ class LeafNode(HTMLNode):
     def __init__(
         self,
         tag: str | None = None,
-        value = None,
-        props: Dict[str, Any] | None = None
+        value = "",
+        props: Dict[str, Any] | None = None,
+        self_closing: bool = False
     ):
-        if value == None:
-            raise ValueError("LeafNode requires a value to be defined")
+        super().__init__(tag=tag, value=value, props=props, self_closing=self_closing)
 
-        super().__init__(tag=tag, value=value, props=props)
-
-    def to_html(self):
+    def to_html(self) -> str:
         if self.tag == None: return f"{self.value}"
-        
-        return f"<{self.tag}{self.props_to_html()}>{self.value}</{self.tag}>"
+
+        if self.self_closing == True:
+            return f"<{self.tag}{self.props_to_html()} />"
+        else:
+            return f"<{self.tag}{self.props_to_html()}>{self.value}</{self.tag}>"
 
     def __eq__(self, value: object, /) -> bool:
-        if not isinstance(value, HTMLNode):
-            return False
+        if not isinstance(value, LeafNode): return False
 
-        return self.tag == value.tag and self.value == value.value and self.props == value.props
+        return self.tag == value.tag and self.value == value.value and self.props == value.props and self.self_closing == value.self_closing

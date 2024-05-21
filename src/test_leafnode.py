@@ -1,6 +1,7 @@
 import unittest
 
-from htmlnode import HTMLNode, LeafNode
+from htmlnode import HTMLNode
+from leafnode import LeafNode
 
 if 'unittest.util' in __import__('sys').modules:
     # Show full diff in self.assertEqual.
@@ -15,8 +16,14 @@ class TestHTMLNode(unittest.TestCase):
         html = LeafNode("a", "Click me!", {"href": "https://www.google.com"}).to_html()
         self.assertEqual(html, "<a href=\"https://www.google.com\">Click me!</a>")
 
-    def test_render_leafnode_error_1(self):
-        self.assertRaises(ValueError, lambda: LeafNode("p"))
+    def test_render_leafnode_3(self):
+        html = LeafNode(
+            "img",
+            props={"src": "path/to/some/image.png", "alt": "The image didn't load =( ..."},
+            self_closing=True
+        ).to_html()
+
+        self.assertEqual(html, "<img src=\"path/to/some/image.png\" alt=\"The image didn't load =( ...\" />")
 
 if __name__ == "__main__":
     unittest.main()

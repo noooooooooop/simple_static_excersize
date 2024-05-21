@@ -1,6 +1,8 @@
 import unittest
 
-from htmlnode import HTMLNode, LeafNode, ParentNode
+from htmlnode import HTMLNode
+from leafnode import LeafNode
+from parentnode import ParentNode
 
 if 'unittest.util' in __import__('sys').modules:
     # Show full diff in self.assertEqual.
