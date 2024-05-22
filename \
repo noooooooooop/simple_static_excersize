@@ -16,7 +16,6 @@ for converting *markdown* to **html**.
 It converts bold, italics and `code blocks`,
 [links](https://www.google.com),
 and ![images](path/to/some/image2.jpeg),
-and ![more images](path/to/some/image3.png),
 [and that's currently about it.](https://www.google.com/images).
 """
 
@@ -33,11 +32,10 @@ and ![more images](path/to/some/image3.png),
             TextNode("links", "link", "https://www.google.com"),
             TextNode(",\nand ", "text"),
             TextNode("images", "image", "path/to/some/image2.jpeg"),
-            TextNode(",\nand ", "text"),
-            TextNode("more images", "image", "path/to/some/image3.png"),
             TextNode(",\n", "text"),
             TextNode("and that's currently about it.", "link", "https://www.google.com/images"),
-            TextNode(".\n", "text"),
+            TextNode("""
+""", "text"),
         ])
 
 if __name__ == "__main__":

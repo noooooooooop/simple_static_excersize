@@ -27,7 +27,10 @@ def split_markdown_links(old_nodes: object | List[object], is_image: bool = Fals
 
     #transformation
     for node in nodes:
-        new_nodes.extend(__split_markdown_links(node, is_image))
+        if node.text_type == "text":
+            new_nodes.extend(__split_markdown_links(node, is_image))
+        else:
+            new_nodes.append(node)
 
     return new_nodes
 
@@ -43,25 +46,19 @@ def __split_markdown_links(old_node: object, is_image: bool = False):
 
     for (text, link) in matches:
         split = node.text.split(f"{"!" if is_image == True else ""}[{text}]({link})", 1)
-        print("========================")
-        print("splitting:")
-        print(f"{"!" if is_image == True else ""}[{text}]({link})")
-        print("split:")
-        print(split)
 
         before = split[0]
         after = ""
         if len(split) > 1: after = split[1]
 
-        if before != "": new_nodes.append(TextNode(before, old_node.text_type))
+        if before != "":
+            new_nodes.append(TextNode(before, old_node.text_type, old_node.url))
+
         new_nodes.append(TextNode(text, "image" if is_image == True else "link", link))
 
         node.text = after
 
     if node.text != "": new_nodes.append(TextNode(node.text, old_node.text_type))
-
-    print("new_nodes:")
-    print(new_nodes)
 
     return new_nodes
 
@@ -105,6 +102,6 @@ def __extract_single_markdown_link(old_node: object, is_image: bool = False):
         matches = re.findall(r"!\[(.*?)\]\((.*?)\)", old_node.text)
     else:
         matches = re.findall(r"(^|[^!])\[(.*?)\]\((.*?)\)", old_node.text)
-        matches = map(lambda x: (x[1], x[2]), matches)
+        matches = list(map(lambda x: (x[1], x[2]), matches))
 
     return matches

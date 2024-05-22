@@ -12,7 +12,7 @@ text_types = [
 ]
     
 class TextNode:
-    def __init__(self, text: str, text_type: str , url: str = ""):
+    def __init__(self, text: str, text_type: str, url: str = ""):
         if not text_type in text_types: 
             raise ValueError("invalid text_type. must be text, bold, italic, code, link or image.")
 
