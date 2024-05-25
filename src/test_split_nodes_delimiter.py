@@ -20,6 +20,15 @@ class TestMain(unittest.TestCase):
             TextNode(" something", "text"),
         ])
 
+    def test_delimiter_1(self):
+        nodes = split_nodes_delimiter(TextNode("# This is a *test emphasizing* something", "text"), "*", "bold")
+
+        self.assertEqual(nodes, [
+            TextNode("# This is a ", "text"),
+            TextNode("test emphasizing", "bold"),
+            TextNode(" something", "text"),
+        ])
+
     def test_delimiter_2(self):
         nodes = split_nodes_delimiter(TextNode("# This is a **test emphasizing** something", "text"), "**", "italic")
 
