@@ -76,9 +76,9 @@ class TestTextNode(unittest.TestCase):
             LeafNode(
                 "img",
                 props={"src": "path/to/image.png", "alt": "the image didn't load =( ..."},
-                self_closing=True,
+                    self_closing=True,
+                )
             )
-        )
 
 if __name__ == "__main__":
     unittest.main()

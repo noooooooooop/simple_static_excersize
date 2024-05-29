@@ -1,6 +1,7 @@
 from textnode import TextNode
 from split_nodes_delimiter import split_nodes_delimiter
 from extract_markdown_links import split_markdown_links
+from typing import List
 
 text_types = [
     "text",
@@ -12,7 +13,7 @@ text_types = [
 ]
 
 # TODO: support headers
-def convert_markdown_to_textnodes(doc: str):
+def convert_markdown_to_textnodes(doc: str) -> List[TextNode]:
     nodes = [TextNode(doc, "text")]
 
     nodes = split_nodes_delimiter(nodes, "**", "italic")

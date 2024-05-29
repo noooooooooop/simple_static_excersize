@@ -1,3 +1,4 @@
+from os import walk
 from htmlnode import HTMLNode
 from leafnode import LeafNode
 from typing import Dict, Any, List
@@ -11,6 +12,7 @@ class ParentNode(HTMLNode):
     ):
         if children == None:
             raise ValueError("ParentNode requires \"children\" to be defined")
+
         if tag == None:
             raise ValueError("ParentNode requires a \"tag\" to be defined")
 
@@ -28,7 +30,18 @@ class ParentNode(HTMLNode):
         return f"<{self.tag}{self.props_to_html()}>{children}</{self.tag}>"
 
     def __eq__(self, value: object, /) -> bool:
-        if not isinstance(value, HTMLNode):
+        if not isinstance(value, ParentNode):
             return False
 
         return self.tag == value.tag and self.children == value.children and self.props == value.props
+
+
+    def __repr__(self) -> str:
+        return \
+f"""ParentNode(
+    tag: {self.tag},
+    value: {self.value},
+    children: {self.children},
+    props: {self.props},
+    self_closing: {self.self_closing}
+)"""
